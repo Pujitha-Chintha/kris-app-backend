@@ -24,6 +24,7 @@ class leaveManagementController {
 
             const data = await leaveManagementServices.createLeaveManagementService(payLoad)
 
+
             if (data) {
                 res.status(200).send({ success: true, data: data })
 
@@ -51,11 +52,13 @@ class leaveManagementController {
             leaveHistoryDetails.map((el) => {
                 el.name = `${el.userId.firstName} ${el.userId.lastName}`
                 delete el.userId
+                delete el.resumptionDate
+                delete el.reliefOfficer
+                delete el.status
+                delete el.newResumptionDate
+                delete el.daysRemain
                 return el
             })
-
-            // leaveHistoryDetails[0].name = `${leaveHistoryDetails[0].userId.firstName} ${leaveHistoryDetails[0].userId.lastName}`
-            // delete leaveHistoryDetails[0].userId;
 
             res.status(200).json({ success: true, data: leaveHistoryDetails });
 

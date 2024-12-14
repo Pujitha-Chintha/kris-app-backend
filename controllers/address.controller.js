@@ -1,4 +1,5 @@
-const addressService = require('../services/address.service')
+const addressService = require('../services/address.service');
+// const usersService = require('../services/users.service');
 
 class addressController {
     async createAddress(req, res) {
@@ -33,19 +34,22 @@ class addressController {
         try {
 
 
-            let contactDetails = await addressService.getContactDetailsByUserId(req.body.userId);
-            console.log(contactDetails, '-<<contactDetails')
+            let addressDetails = await addressService.getAddressDetails(req.params.userId);
+            console.log(addressDetails, '-<<addressDetails')
 
+            let updatedContactDetails = addressDetails.map((el) => {
+                el.email = el.userId.email
+                el.phoneNumber = el.userId.phoneNumber || ''
+                el.phoneNumber2 = el.userId.phoneNumber2
 
-            // let updatedContactDetails = contactDetails.map((el) => {
+                delete el.doorNumber
+                delete el.pinCode
+                delete el.userId
 
-            //     delete el.doorNumber
-            //     delete el.pinCode
-            //     return el
-            // })
+                return el
+            })
 
-
-            res.status(200).json({ success: true, data: contactDetails });
+            res.status(200).json({ success: true, data: updatedContactDetails });
 
         } catch (error) {
             console.log(error, '>>>>error');
@@ -61,15 +65,38 @@ class addressController {
             if (req.body.state) updateData.state = req.body.state;
             if (req.body.residentialAddress) updateData.residentialAddress = req.body.residentialAddress;
 
+            const userObj = {};
+            if (req.body.email) userObj.email = req.body.email;
+            if (req.body.phoneNumber) userObj.phoneNumber = req.body.phoneNumber;
+            if (req.body.phoneNumber2) userObj.phoneNumber2 = req.body.phoneNumber2;
+
 
             const updatedContacts = await addressService.updateContactDetailsByUserId(
-                req.params.id,
-                updateData,
-                { new: true }
+                req.body.id,
+                updateData
             )
+
+            console.log(updatedContacts, '<<updatedContacts');
+            console.log(userObj, '<<userObj');
+
+            const _id = req.user.id
+
+            const updatedUserDetails = await addressService.updateUserDetailsByUserId(
+                _id,
+                userObj
+
+            )
+
+            console.log(updatedUserDetails, '<><>>??>?updatedUserDetails');
+
+
             if (!updatedContacts) {
                 console.log("contact not found with ID:", req.params.id);
                 return res.status(404).send("contact not found");
+            }
+
+            if (!updatedUserDetails) {
+                return res.status(404).send("user not found");
             }
             console.log(">>>>updatedContacts", updatedContacts);
             res.status(200).send("contact updated successfully");

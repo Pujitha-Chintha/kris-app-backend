@@ -1,4 +1,5 @@
 const addressModal = require('../modals/address.modal')
+const usersModal = require('../modals/users.modal')
 
 
 class addressServices {
@@ -26,18 +27,22 @@ class addressServices {
     //     return data;
     // }
 
-    async getContactDetailsByUserId(userId) {
+    async getAddressDetails(userId) {
         const data = await addressModal
             .find({ "userId": userId })
-            .populate('userId', 'firstName lastName') // Specify fields to populate from the `users` schema
+            .populate('userId', 'phoneNumber phoneNumber2 email') // Specify fields to populate from the `users` schema
             .lean();
         return data;
     }
 
 
+    async updateContactDetailsByUserId(id, payLoad) {
+        const data = await addressModal.findByIdAndUpdate(id, payLoad)
+        return data;
+    }
 
-    async updateContactDetailsByUserId(payLoad) {
-        const data = await addressModal.findByIdAndUpdate(payLoad)
+    async updateUserDetailsByUserId(id, payLoad) {
+        const data = await usersModal.findByIdAndUpdate(id, payLoad)
         return data;
     }
 

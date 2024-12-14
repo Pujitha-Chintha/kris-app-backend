@@ -37,11 +37,11 @@ class userMappingController {
             console.log(userDetails, '-<<userDetails')
 
 
-            const updatedUserDetails = userDetails.map((el) => {
-                if (el.userId && el.userId.firstName) {
-                    return { ...el, firstName: el.userId.firstName };
-                }
-                return el;
+            let updatedUserDetails = userDetails.map((el) => {
+                return {
+                    name: `${el.userId.firstName} ${el.userId.lastName}`,
+                    jobTitle: el.jobTitle
+                };
             });
 
             res.status(200).json({ success: true, data: updatedUserDetails });
@@ -57,8 +57,6 @@ class userMappingController {
         console.log(req.params.userId, ">>>>>>>>>reqbody");
 
         try {
-
-
             let userDetails = await usersMappingService.getUserDetailsByUserId(req.params.userId);
             console.log(userDetails, '-<<userDetails')
 
@@ -77,7 +75,35 @@ class userMappingController {
 
         } catch (error) {
             console.log(error, '>>>>error');
-            res.status(500).json({ success: false, message: "Error in getting orders data", error: error.message });
+            res.status(500).json({ success: false, message: "Error in getting user data", error: error.message });
+        }
+    }
+
+
+    async getUserJObDetailsByUserId(req, res) {
+        console.log(req.params.userId, ">>>>>>>>>reqbody");
+
+        try {
+            let userJobDetails = await usersMappingService.getUserJobDetailsByUserId(req.params.userId);
+            console.log(userJobDetails, '-<<userDetails')
+
+
+            let updatedUserJobDetails = userJobDetails.map((el) => {
+                return {
+                    role: el.role,
+                    department: el.department,
+                    lineManager: el.lineManager
+                }
+            })
+
+            console.log(updatedUserJobDetails, "<???<updatedUserJobDetails")
+
+
+            res.status(200).json({ success: true, data: updatedUserJobDetails });
+
+        } catch (error) {
+            console.log(error, '>>>>error');
+            res.status(500).json({ success: false, message: "Error in getting user job data", error: error.message });
         }
     }
 

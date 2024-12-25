@@ -9,7 +9,9 @@ class financialController {
                 accountNumber: req.body.accountNumber,
                 accountName: req.body.accountName,
                 registeredWith: req.body.registeredWith,
-                pensionNumber: req.body.pensionNumber
+                pensionNumber: req.body.pensionNumber,
+                userId: req.user.id
+
             }
             console.log(payload);
 
@@ -52,17 +54,17 @@ class financialController {
 
 
             const updatedFinancialDetails = await financialService.updateFinancialDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 
             console.log(updatedFinancialDetails, '<><><>updatedFinancialDetails');
 
 
-            if (!updatedFinancialDetails) {
-                console.log("details not found with ID:", req.body.id);
-                return res.status(404).send("Details not found");
-            }
+            // if (!updatedFinancialDetails) {
+            //     console.log("details not found with ID:", req.body.id);
+            //     return res.status(404).send("Details not found");
+            // }
 
             console.log(">>>>updatedFinancialDetails", updatedFinancialDetails);
             res.status(200).send("Details updated successfully");

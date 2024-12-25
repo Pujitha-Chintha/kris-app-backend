@@ -72,20 +72,20 @@ class kinDetailController {
 
 
             const updatedKinDetails = await kinService.updateKinDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 
             console.log(updatedKinDetails, '<<updatedKinDetails');
 
 
-            if (!updatedKinDetails) {
-                console.log("details not found with ID:", req.params.id);
-                return res.status(404).send("Details not found");
-            }
+            // if (!updatedKinDetails) {
+            //     console.log("details not found with ID:", req.params.id);
+            //     return res.status(404).send("Details not found");
+            // }
 
 
-            console.log(">>>>updatedKinDetails", updatedKinDetails);
+            // console.log(">>>>updatedKinDetails", updatedKinDetails);
             res.status(200).send("Details updated successfully");
         } catch (error) {
             console.log(error, '>>>>error')

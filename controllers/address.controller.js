@@ -60,6 +60,8 @@ class addressController {
 
     async updateContactDetailsByUserId(req, res) {
         try {
+
+            console.log('here in ... ', req.body)
             const updateData = {};
             if (req.body.city) updateData.city = req.body.city;
             if (req.body.state) updateData.state = req.body.state;
@@ -72,7 +74,7 @@ class addressController {
 
 
             const updatedContacts = await addressService.updateContactDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 

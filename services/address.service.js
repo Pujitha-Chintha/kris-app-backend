@@ -30,13 +30,14 @@ class addressServices {
     async getAddressDetails(userId) {
         const data = await addressModal
             .find({ "userId": userId })
-            .populate('userId', 'phoneNumber phoneNumber2 email') // Specify fields to populate from the `users` schema
+            .populate('userId', 'phoneNumber phoneNumber2 email')
             .lean();
         return data;
     }
 
 
     async updateContactDetailsByUserId(id, payLoad) {
+        console.log(id, payLoad, '-<,id, payLoad')
         const data = await addressModal.findByIdAndUpdate(id, payLoad)
         return data;
     }

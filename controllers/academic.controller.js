@@ -1,4 +1,6 @@
 const academicService = require('../services/academics.service')
+const moment = require('moment');
+
 
 class academicController {
     async createAcademicDetails(req, res) {
@@ -42,10 +44,13 @@ class academicController {
 
                 // delete el.doorNumber
                 // delete el.pinCode
+                el.academicStartDate = moment(el.academicStartDate).format('MMMM YYYY')
+                el.academicEndDate = moment(el.academicEndDate).format('MMMM YYYY')
                 delete el.userId
 
                 return el
             })
+
 
             res.status(200).json({ success: true, data: updatedAcademicDetails });
 
@@ -70,7 +75,7 @@ class academicController {
 
 
             const updatedAcademicDetails = await academicService.updateAcademicDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 

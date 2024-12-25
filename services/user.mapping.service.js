@@ -17,7 +17,7 @@ class UserMappingServices {
     }
 
     async getUserJobDetailsByUserId(userId) {
-        const data = await userMappingModal.find({}).populate()
+        const data = await userMappingModal.find({ 'userId': userId }).populate()
         return data;
     }
 

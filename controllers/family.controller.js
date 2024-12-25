@@ -7,7 +7,8 @@ class familyController {
                 nameOfFamilyMember: req.body.nameOfFamilyMember,
                 relationship: req.body.relationship,
                 PhoneNumber: req.body.PhoneNumber,
-                address: req.body.address
+                address: req.body.address,
+                userId: req.user.id
 
             };
             console.log(payload, ">>>>>payLoad");
@@ -53,17 +54,17 @@ class familyController {
 
 
             const updatedFamilyDetails = await familyService.updateFamilyDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 
             console.log(updatedFamilyDetails, '<<updatedFamilyDetails');
 
 
-            if (!updatedFamilyDetails) {
-                console.log("details not found with ID:", req.params.id);
-                return res.status(404).send("Details not found");
-            }
+            // if (!updatedFamilyDetails) {
+            //     console.log("details not found with ID:", req.params.id);
+            //     return res.status(404).send("Details not found");
+            // }
 
 
             console.log(">>>>updatedFamilyDetails", updatedFamilyDetails);

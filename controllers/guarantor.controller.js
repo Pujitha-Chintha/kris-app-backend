@@ -6,7 +6,8 @@ class guarantorController {
             let payload = {
                 guarantorName: req.body.guarantorName,
                 occupation: req.body.occupation,
-                PhoneNumber: req.body.PhoneNumber
+                PhoneNumber: req.body.PhoneNumber,
+                userId: req.user.id
 
             };
             console.log(payload, ">>>>>payLoad");
@@ -52,17 +53,17 @@ class guarantorController {
 
 
             const updatedGuarantorDetails = await guarantorService.updateGuarantorDetailsByUserId(
-                req.body.id,
+                req.body._id,
                 updateData
             )
 
             console.log(updatedGuarantorDetails, '<<updatedGuarantorDetails');
 
 
-            if (!updatedGuarantorDetails) {
-                console.log("details not found with ID:", req.params.id);
-                return res.status(404).send("Details not found");
-            }
+            // if (!updatedGuarantorDetails) {
+            //     console.log("details not found with ID:", req.params.id);
+            //     return res.status(404).send("Details not found");
+            // }
 
 
             console.log(">>>>updatedGuarantorDetails", updatedGuarantorDetails);
